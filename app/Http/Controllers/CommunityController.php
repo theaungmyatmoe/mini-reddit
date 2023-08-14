@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Community\CommunityStoreRequest;
+use App\Http\Requests\Community\CommunityUpdateRequest;
 use App\Models\Community;
 use App\Models\Topic;
 use Illuminate\Http\Request;
@@ -14,7 +15,8 @@ class CommunityController extends Controller
      */
     public function index()
     {
-        //
+        $communities = auth()->user()->communities()->get();
+        return view('communities.index', compact('communities'));
     }
 
     /**
@@ -34,7 +36,7 @@ class CommunityController extends Controller
         $community = Community::create($request->validated() + ['user_id' => auth()->id()]);
         $community->topics()->attach($request->topics);
 
-        return redirect()->route('communities.show', compact('community'));
+        return redirect()->route('communities.index')->with('message', 'Community created successfully');
     }
 
     /**
@@ -48,24 +50,30 @@ class CommunityController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Community $community)
     {
-        //
+        $community->load('topics');
+        $topics = Topic::all();
+        return view('communities.edit', compact('community', 'topics'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CommunityUpdateRequest $request, Community $community)
     {
-        //
+        $community->update($request->validated());
+        $community->topics()->sync($request->topics);
+
+        return redirect()->route('communities.index')->with('message', 'Community updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Community $community)
     {
-        //
+        $community->delete();
+        return redirect()->route('communities.index')->with('message', 'Community deleted successfully');
     }
 }

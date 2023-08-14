@@ -42,6 +42,10 @@
                             {{ __('Create a Community') }}
                         </x-dropdown-link>
 
+                        <x-dropdown-link :href="route('communities.index')">
+                            {{ __('My Communities') }}
+                        </x-dropdown-link>
+
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
