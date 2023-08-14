@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Community\CommunityStoreRequest;
+use App\Models\Community;
 use App\Models\Topic;
 use Illuminate\Http\Request;
 
@@ -27,17 +29,20 @@ class CommunityController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CommunityStoreRequest $request)
     {
+        $community = Community::create($request->validated() + ['user_id' => auth()->id()]);
+        $community->topics()->attach($request->topics);
 
+        return redirect()->route('communities.show', compact('community'));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Community $community)
     {
-        //
+        return $community->id;
     }
 
     /**

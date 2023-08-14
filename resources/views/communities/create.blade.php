@@ -33,7 +33,7 @@
                         <x-input-label for="topics" :value="__('Topics')"/>
                         @foreach($topics as $topic)
                             <div>
-                                <input id="topics" type="checkbox" name="topics[]" value="{{ $topic->name }}"/>
+                                <input id="topics" type="checkbox" name="topics[]" value="{{ $topic->id }}"/>
                                 <label for="topics">{{ $topic->name }}</label>
                             </div>
                         @endforeach
