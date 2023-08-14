@@ -30,15 +30,13 @@
 
                     <!-- Topics -->
                     <div class="mt-4">
-                        <x-input-label for="topics" :value="__('Topics')"/>
-                        @foreach($topics as $topic)
-                            <div>
-                                <input id="topics" type="checkbox" name="topics[]" value="{{ $topic->id }}"/>
-                                <label for="topics">{{ $topic->name }}</label>
-                            </div>
-                        @endforeach
+                        <x-input-label class="mb-1" for="topics" :value="__('Topics')"/>
+                        <select class="select2" style="width: 100%;" name="topics[]" multiple>
+                            @foreach($topics as $topic)
+                                <option value="{{ $topic->id }}">{{ $topic->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
-
 
                     <div class="flex items-center justify-end mt-4">
 
