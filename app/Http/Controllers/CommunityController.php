@@ -52,6 +52,10 @@ class CommunityController extends Controller
      */
     public function edit(Community $community)
     {
+        if ($community->user_id != auth()->id()) {
+            return redirect()->route('communities.index')->with('message', 'You are not authorized to edit this community');
+        }
+
         $community->load('topics');
         $topics = Topic::all();
         return view('communities.edit', compact('community', 'topics'));
@@ -62,6 +66,10 @@ class CommunityController extends Controller
      */
     public function update(CommunityUpdateRequest $request, Community $community)
     {
+        if ($community->user_id != auth()->id()) {
+            return redirect()->route('communities.index')->with('message', 'You are not authorized to edit this community');
+        }
+
         $community->update($request->validated());
         $community->topics()->sync($request->topics);
 
@@ -73,6 +81,10 @@ class CommunityController extends Controller
      */
     public function destroy(Community $community)
     {
+        if ($community->user_id != auth()->id()) {
+            return redirect()->route('communities.index')->with('message', 'You are not authorized to edit this community');
+        }
+
         $community->delete();
         return redirect()->route('communities.index')->with('message', 'Community deleted successfully');
     }
