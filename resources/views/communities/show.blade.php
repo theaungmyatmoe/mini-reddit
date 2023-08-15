@@ -39,7 +39,7 @@
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                     @forelse($posts as $post)
                         <div
-                            class="flex justify-between max-w-lg mx-auto px-4 py-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
+                            class="mb-3 flex justify-between max-w-lg mx-auto px-4 py-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
                             <div class="flex flex-col justify-center items-center justify-center gap-1">
                                 <a
                                     href="{{ route('posts.vote',[$post,1]) }}"
