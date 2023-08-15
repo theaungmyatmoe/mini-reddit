@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommunityController;
-use App\Http\Controllers\CommunityPost;
+use App\Http\Controllers\CommunityPostController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('/communities', CommunityController::class);
-    Route::resource('/communities.posts', CommunityPost::class);
+    Route::resource('/communities.posts', CommunityPostController::class);
 });
 
 require __DIR__ . '/auth.php';

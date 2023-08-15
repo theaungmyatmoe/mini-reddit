@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Post\StorePostRequest;
 use App\Models\Community;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
-class CommunityPost extends Controller
+class CommunityPostController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -38,9 +39,10 @@ class CommunityPost extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Community $community, Post $post)
     {
-        //
+
+        return view('posts.show', compact('post', 'community'));
     }
 
     /**
@@ -62,8 +64,10 @@ class CommunityPost extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Community $community, Post $post)
     {
-        //
+        $post->delete();
+
+        return redirect()->route('communities.show', $post->community)->with('message', 'Post deleted successfully');
     }
 }

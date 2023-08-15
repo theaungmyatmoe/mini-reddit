@@ -44,6 +44,10 @@ class CommunityController extends Controller
      */
     public function show(Community $community)
     {
+        if ($community->user_id != auth()->id()) {
+            return redirect()->route('communities.index')->with('message', 'You are not authorized to edit this community');
+        }
+
         $posts = $community->posts()->latest('id')->paginate(5);
 
         return view('communities.show', compact('community', 'posts'));

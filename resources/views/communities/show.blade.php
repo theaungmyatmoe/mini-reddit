@@ -1,8 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <a href="{{ route('communities.show',$community) }}" class="font-semibold text-xl text-gray-800 leading-tight">
             {{ $community->name }}
-        </h2>
+        </a>
     </x-slot>
 
     <div class="py-12">
@@ -24,9 +24,9 @@
                 </div>
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                     @forelse($posts as $post)
-
-                        <a href="#"
-                           class="block max-w-lg mx-auto p-6 mb-2 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                        <a
+                            href="{{ route('communities.posts.show',[$community,$post]) }}"
+                            class="block max-w-lg mx-auto p-6 mb-2 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
                             <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                                 {{ $post->title }}
                             </h5>
