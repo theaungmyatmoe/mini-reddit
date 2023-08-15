@@ -41,7 +41,9 @@ class CommunityPostController extends Controller
      */
     public function show(Community $community, Post $post)
     {
-
+        if ($post->community_id !== $community->id) {
+            abort(404);
+        }
         return view('posts.show', compact('post', 'community'));
     }
 
@@ -50,6 +52,9 @@ class CommunityPostController extends Controller
      */
     public function edit(Community $community, Post $post)
     {
+        if ($post->user_id !== auth()->id()) {
+            abort(403);
+        }
         return view('posts.edit', compact('post', 'community'));
     }
 
