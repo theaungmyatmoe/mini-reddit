@@ -48,17 +48,19 @@ class CommunityPostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Community $community, Post $post)
     {
-        //
+        return view('posts.edit', compact('post', 'community'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(StorePostRequest $request, Community $community, Post $post)
     {
-        //
+        $post->update($request->validated());
+
+        return redirect()->route('communities.posts.show', [$community, $post])->with('message', 'Post updated successfully');
     }
 
     /**
