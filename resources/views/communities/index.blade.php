@@ -39,7 +39,10 @@
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                 <th scope="row"
                                     class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    {{ $community->name }}
+                                    <a href="{{ route('communities.show',$community) }}"
+                                       class="text-indigo-600 underline">
+                                        {{ $community->name }}
+                                    </a>
                                 </th>
                                 <td class="px-6 py-4">
                                     <a href="{{ route('communities.edit',$community) }}"
