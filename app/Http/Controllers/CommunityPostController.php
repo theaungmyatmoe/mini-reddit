@@ -30,9 +30,18 @@ class CommunityPostController extends Controller
      */
     public function store(StorePostRequest $request, Community $community)
     {
-        $community->posts()->create($request->validated() + [
-                'user_id' => auth()->id(),
+        $post = $community->posts()->create($request->validated() + [
+                'user_id' => auth()->id()
             ]);
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $image->storeAs('public/posts', "{$post->id}/{$image->getClientOriginalName()}");
+            $post->update([
+                "image" => "posts/{$post->id}/{$image->getClientOriginalName()}"
+            ]);
+        }
+
         return redirect()->route('communities.show', $community)->with('message', 'Post created successfully');
     }
 
