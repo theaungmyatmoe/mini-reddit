@@ -9,6 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <form method="POST" action="{{ route('communities.posts.update',[$community,$post]) }}"
+                      enctype="multipart/form-data"
                       class="max-w-sm container mx-auto my-12">
                     @csrf
                     @method('PUT')

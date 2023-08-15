@@ -22,9 +22,9 @@
                         Add New Post
                     </a>
                 </div>
-                <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                    @if($post->image != "")
-                        <img src="{{ $post->image->url() }}" alt="{{ $post->title }}" class="w-full"
+                <div class="relative overflow-x-auto shadow-md sm:rounded-lg px-8">
+                    @if($post->image !== "")
+                        <img src="{{ asset($post->image)  }}" alt="{{ $post->title }}" class="w-48 h-48"
                     @endif
 
                     <div

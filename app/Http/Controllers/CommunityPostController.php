@@ -72,7 +72,26 @@ class CommunityPostController extends Controller
      */
     public function update(StorePostRequest $request, Community $community, Post $post)
     {
+        if ($post->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $oldPost = $post->replicate();
         $post->update($request->validated());
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $image->storeAs('public/posts', "{$post->id}/{$image->getClientOriginalName()}");
+
+            if ($post->image !== "") {
+                unlink(storage_path("app/public/$oldPost->image"));
+            }
+
+            $post->update([
+                'image' => "posts/{$post->id}/{$image->getClientOriginalName()}"
+            ]);
+        }
+
 
         return redirect()->route('communities.posts.show', [$community, $post])->with('message', 'Post updated successfully');
     }
