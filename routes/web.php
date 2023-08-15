@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('/communities', CommunityController::class);
     Route::resource('/communities.posts', CommunityPostController::class);
+    Route::get('/posts/{post}/vote/{vote}', [CommunityPostController::class, 'vote'])->name('posts.vote');
 });
 
 require __DIR__ . '/auth.php';

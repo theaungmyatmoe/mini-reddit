@@ -17,6 +17,7 @@ class Post extends Model
         'url',
         'community_id',
         'user_id',
+        'votes',
     ];
 
 
