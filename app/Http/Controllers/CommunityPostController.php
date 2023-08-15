@@ -110,20 +110,23 @@ class CommunityPostController extends Controller
     {
 
         if (
-            PostVote::where('user_id', auth()->id())
+            !PostVote::where('user_id', auth()->id())
                 ->where('post_id', $post->id)
                 ->exists()
+            && collect([-1, 1])->contains($vote)
+            && $post->user_id !== auth()->id()
         ) {
-            return redirect()->route('communities.show', [$post->community]);
+            PostVote::create([
+                'user_id' => auth()->id(),
+                'post_id' => $post->id,
+                'vote' => $vote
+            ]);
+
+            $post->increment('votes', $vote);
+
         }
 
-        PostVote::create([
-            'user_id' => auth()->id(),
-            'post_id' => $post->id,
-            'vote' => $vote
-        ]);
 
-        $post->increment('votes', $vote);
         return redirect()->route('communities.show', [$post->community]);
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Requests\Community\CommunityStoreRequest;
 use App\Http\Requests\Community\CommunityUpdateRequest;
 use App\Models\Community;
 use App\Models\Topic;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class CommunityController extends Controller
@@ -42,13 +43,21 @@ class CommunityController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Community $community)
+    public function show(Request $request, Community $community)
     {
         if ($community->user_id != auth()->id()) {
             return redirect()->route('communities.index')->with('message', 'You are not authorized to edit this community');
         }
 
-        $posts = $community->posts()->latest('id')->paginate(5);
+        $posts = $community->posts()
+            ->when($request->query('sort') == 'popular', function (Builder $query) {
+                return $query->orderBy('votes', 'desc');
+            })
+            ->when($request->query('sort', 'latest'), function (Builder $query) {
+                return $query->orderBy('id', 'desc');
+            })
+            ->paginate(5);
+
 
         return view('communities.show', compact('community', 'posts'));
     }
