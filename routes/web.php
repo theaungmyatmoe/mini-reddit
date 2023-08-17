@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\CommunityPostController;
+use App\Http\Controllers\PostComment;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +32,8 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('/communities', CommunityController::class);
     Route::resource('/communities.posts', CommunityPostController::class);
+    Route::resource('/posts.comments', PostComment::class);
+
     Route::get('/posts/{post}/vote/{vote}', [CommunityPostController::class, 'vote'])->name('posts.vote');
 });
 

@@ -53,6 +53,9 @@ class CommunityPostController extends Controller
         if ($post->community_id !== $community->id) {
             abort(404);
         }
+
+        $post->load('comments.user');
+
         return view('posts.show', compact('post', 'community'));
     }
 

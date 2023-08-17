@@ -59,6 +59,7 @@ class CommunityController extends Controller
             ->paginate(5);
 
 
+
         return view('communities.show', compact('community', 'posts'));
     }
 
