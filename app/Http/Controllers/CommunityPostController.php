@@ -6,6 +6,7 @@ use App\Http\Requests\Post\StorePostRequest;
 use App\Models\Community;
 use App\Models\Post;
 use App\Models\PostVote;
+use Illuminate\Support\Facades\Gate;
 
 class CommunityPostController extends Controller
 {
@@ -104,8 +105,11 @@ class CommunityPostController extends Controller
      */
     public function destroy(Community $community, Post $post)
     {
-        $post->delete();
+        if (Gate::denies('can-delete', $post)) {
+            abort(403);
+        }
 
+        $post->delete();
         return redirect()->route('communities.show', $post->community)->with('message', 'Post deleted successfully');
     }
 
